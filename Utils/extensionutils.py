@@ -39,7 +39,7 @@ if not hasattr(subprocess, 'check_output'):
 
     subprocess.check_output = check_output
     subprocess.CalledProcessError = CalledProcessError
-    
+
 
 def change_owner(file_path, user):
     """

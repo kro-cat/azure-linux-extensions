@@ -251,6 +251,7 @@ class GenericDistro(object):
             pass
         return
 
+
 class UbuntuDistro(GenericDistro):
     def __init__(self, config):
         """
@@ -263,6 +264,7 @@ class UbuntuDistro(GenericDistro):
         self.sudoers_dir_base = '/usr/local/etc'
         self.distro_name = 'Ubuntu'
 
+
 class FreeBSDDistro(GenericDistro):
     """
     """
@@ -273,8 +275,15 @@ class FreeBSDDistro(GenericDistro):
         This __init__() may be called or overriden by the child.
         """
         super(FreeBSDDistro, self).__init__(config)
+
+        _, services = ext_utils.run_command_get_output([self.service_cmd, '-l'])
+        services = services.split()
+
         self.selinux = False
-        self.ssh_service_name = 'sshd'
+        if 'openssh' in services:
+            self.ssh_service_name = 'openssh'
+        else:
+            self.ssh_service_name = 'sshd'
         self.sudoers_dir_base = '/usr/local/etc'
         self.distro_name = 'FreeBSD'
 
